@@ -1,0 +1,5 @@
+name: yogakshema
+title: YogaKshema
+version: 0.0.1
+nav:
+  - modules/ROOT/nav.adoc
