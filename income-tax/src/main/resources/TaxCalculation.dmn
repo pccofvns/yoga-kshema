@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://kiegroup.org/dmn/_788EB9EB-0D8D-4BD8-BA9C-897A0890CD9F" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_E07BF413-5EBE-4634-9E33-AC66754020C3" name="TaxCalculation" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://kiegroup.org/dmn/_788EB9EB-0D8D-4BD8-BA9C-897A0890CD9F">
+  <dmn:extensionElements/>
+  <dmn:itemDefinition id="_94E84D27-0410-4F76-AD2B-B2D708D13EA0" name="tGender" isCollection="false">
+    <dmn:typeRef>string</dmn:typeRef>
+    <dmn:allowedValues kie:constraintType="enumeration" id="_C9AED504-2FF7-47EA-8A22-D2A96885CE63">
+      <dmn:text>"male", "female", "others"</dmn:text>
+    </dmn:allowedValues>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_8C7A4AB7-17B6-409A-8B75-7B43A8FDC7BF" name="tTaxRegime" isCollection="false">
+    <dmn:typeRef>string</dmn:typeRef>
+    <dmn:allowedValues kie:constraintType="enumeration" id="_C6637C77-82D5-4A78-9B40-341276EA604A">
+      <dmn:text>"OLD", "NEW"</dmn:text>
+    </dmn:allowedValues>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_DD040D04-3FC7-42F8-9ED7-C44F6D96B5A9" name="tAmount" isCollection="false">
+    <dmn:typeRef>number</dmn:typeRef>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_2C07D4F0-3416-4CB1-A6E4-FD7130A2B4DC" name="IncomeTaxRequest" isCollection="false">
+    <dmn:itemComponent id="_F81CE91B-F970-4874-8BC3-BF2B33A54D1D" name="gender" isCollection="false">
+      <dmn:typeRef>tGender</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_DC403229-66E0-48F2-9249-A2D867541250" name="taxableIncome" isCollection="false">
+      <dmn:typeRef>tAmount</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_EC8B084A-B560-4783-A0AF-5B6FA15D2E25" name="age" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+      <dmn:allowedValues kie:constraintType="range" id="_6C031796-B25C-4ED1-B559-ABEC49D77641">
+        <dmn:text>[0..120]</dmn:text>
+      </dmn:allowedValues>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_DC94FBE8-A449-41DC-9536-00CA1F494DA5" name="regime" isCollection="false">
+      <dmn:typeRef>tTaxRegime</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_265E235F-AD46-4DCE-93ED-7737BD13BE2C" name="IncomeTaxResponse" isCollection="false">
+    <dmn:itemComponent id="_E513ABEF-ACC1-42E9-BE00-7191C30BCC31" name="amount" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_BF737BFC-EBE6-475F-85A7-D0B6A18F688A" name="slab" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:decision id="_6AFCC88F-FA5B-4C61-8493-095DD87AF562" name="IncomeTaxResponse">
+    <dmn:extensionElements/>
+    <dmn:variable id="_CBB7EB9A-5779-49F6-A85C-6A69BAD32C2D" name="IncomeTaxResponse" typeRef="IncomeTaxResponse"/>
+    <dmn:informationRequirement id="_E7FA736A-304C-41BF-809B-07922AB79558">
+      <dmn:requiredInput href="#_E91EC878-25EF-4B9B-A41C-13D4EF283B19"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_EC00B708-699C-4C33-9AB7-9E0F5BCBFE40" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_42857EBB-A83F-4221-8561-2D0F9F7895C0">
+        <dmn:inputExpression id="_F2368A58-D45A-4BDD-8659-E625FBDC3E01" typeRef="tTaxRegime">
+          <dmn:text>IncomeTaxRequest.regime</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_468625BC-C20F-4138-89C1-F34511D182FC">
+        <dmn:inputExpression id="_002C5B8B-23AB-4064-AD1F-93E062BD03CC" typeRef="tAmount">
+          <dmn:text>IncomeTaxRequest.taxableIncome</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_1022CA2F-28F3-46FA-A0D8-B36E09B66CCE">
+        <dmn:inputExpression id="_FC7278E4-D415-4071-B4BC-A21D8CF0B794" typeRef="tGender">
+          <dmn:text>IncomeTaxRequest.gender</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_332C451D-DA9A-4B3D-9B6A-77109943AF9A">
+        <dmn:inputExpression id="_36C404BE-792C-4697-B4D7-01F5C304ECFA" typeRef="number">
+          <dmn:text>IncomeTaxRequest.age</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_C27EB02C-992C-4044-BAA6-F17D3DE58FCD" name="slab" typeRef="number"/>
+      <dmn:output id="_94EF3CAA-2917-46F3-87DA-512D06B6BA9A" name="amount" typeRef="IncomeTaxResponse"/>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_75A9756D-D94F-4A80-9B88-0CF0E1D5C2EB">
+        <dmn:inputEntry id="_42F7A89C-3BC6-4B46-8817-EC19BEFDF9DE">
+          <dmn:text>"OLD"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_C834F48C-8B6E-49A5-8EE3-F16D578DC472">
+          <dmn:text>[0..250000)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_1B0EC947-04E6-4714-887B-E2A05771AD39">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_D26C3B66-04B2-42F9-85EA-6A955858C17E">
+          <dmn:text>[0..60)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_6AC4F162-F322-4E6F-9FE5-B6D81E1F84AD">
+          <dmn:text>0</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_7A11DE02-06CC-4536-A330-723120A853C1">
+          <dmn:text>0</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Nil</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_EA7A26B7-E104-4705-891B-FCD6C171EFCE">
+        <dmn:inputEntry id="_D24B7D48-73E5-4D78-9077-4C2B60A697F8">
+          <dmn:text>"OLD"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_95988F6A-0D53-4961-871B-1BFB5B3F78ED">
+          <dmn:text>[250000..500000)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_B00187A3-D8F7-4C19-B0FC-E2F63E557967">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_ED6EC3DF-9C8F-4EB0-A050-38C5583F155D">
+          <dmn:text>[0..60)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_3479AE71-C560-421F-861F-B30506D7E3BF">
+          <dmn:text>5</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_5E469B96-ED2E-4F72-BC8C-1A0938921B38">
+          <dmn:text>(IncomeTaxRequest.taxableIncome - 250000) * 0.05</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>5% of the total income that is more than INR 2.5 lakh + 4% cess</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_5D8D2C61-46D8-4816-B7E7-1C52314C75D1">
+        <dmn:inputEntry id="_33E79F72-902D-404D-9CC1-422D65FEC88A">
+          <dmn:text>"OLD"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_6C5AEF36-913C-4B16-A6CF-C863EF5A1658">
+          <dmn:text>[500000..1000000)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_A6FD1663-B93A-4E15-900F-70FAED9B92C2">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_66A6BBC3-509E-4044-AD12-3BB04D41B2F3">
+          <dmn:text>[0..60)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_74682593-EA3D-48CB-B506-2F7346853FD7">
+          <dmn:text>20</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_0ADBCABB-FCDD-4F5E-9066-7D663E74E473">
+          <dmn:text>(12500 + (IncomeTaxRequest.taxableIncome - 500000) * 0.20) * (26/25)</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>20% of the total income that is more than INR 5 lakh + INR 12,500 + 4% cess</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_3FB0148C-246D-46CC-8F64-8558199F33DE">
+        <dmn:inputEntry id="_2DA7FF9F-F064-46F9-9B8A-B6A71AE64CF6">
+          <dmn:text>"OLD"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_10A5D50B-6888-4704-A23D-E33CA0E0C1DA">
+          <dmn:text>&gt;=1000000</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_0AAEEA70-0652-472B-AEAB-E96CE60D5A38">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_93E34BD9-0532-4715-B285-5BCABF11D9E9">
+          <dmn:text>[0..60)</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_66ADAEBF-BF1C-4011-8CC7-8749616024CD">
+          <dmn:text>30</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_23C98C88-F8DB-4C4B-B61C-EF235FB769AA">
+          <dmn:text>(112500 + (IncomeTaxRequest.taxableIncome - 1000000) * 0.30) * (26/25)</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>30% of the total income that is more than INR 10 lakh + INR 1,12,500 + 4% cess</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_9C90E3C1-6E47-47B9-B6D3-2871134BB9EE">
+        <dmn:inputEntry id="_952A2855-0D60-4F7E-88AC-26A752C59F8C">
+          <dmn:text>"NEW"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_3D7C8F27-8199-4085-B3E2-EB0FE81A7570">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_6BF162E0-FFC5-4674-9514-5B6FE561C2A7">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_542350DF-39D1-4776-ADC0-AF2DDE904CA9">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_86894B6A-8D40-4BE9-90AC-6B967EF08A7A">
+          <dmn:text>0</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="_A93A559F-3750-421D-8E29-A3E8D14D967D">
+          <dmn:text>0</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>TODO</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:inputData id="_E91EC878-25EF-4B9B-A41C-13D4EF283B19" name="IncomeTaxRequest">
+    <dmn:extensionElements/>
+    <dmn:variable id="_40BED400-9A32-48AF-B6DD-691648CB0CBA" name="IncomeTaxRequest" typeRef="IncomeTaxRequest"/>
+  </dmn:inputData>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_531E1107-9D43-4260-A0F3-D164AA4BD7DD" name="DRG">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_EC00B708-699C-4C33-9AB7-9E0F5BCBFE40">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>212</kie:width>
+            <kie:width>219</kie:width>
+            <kie:width>183</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>620</kie:width>
+            <kie:width>628</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-drg-_6AFCC88F-FA5B-4C61-8493-095DD87AF562" dmnElementRef="_6AFCC88F-FA5B-4C61-8493-095DD87AF562" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="178" y="76" width="196" height="59"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_E91EC878-25EF-4B9B-A41C-13D4EF283B19" dmnElementRef="_E91EC878-25EF-4B9B-A41C-13D4EF283B19" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="209.99999999999997" y="424" width="131" height="63"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-drg-_E7FA736A-304C-41BF-809B-07922AB79558" dmnElementRef="_E7FA736A-304C-41BF-809B-07922AB79558">
+        <di:waypoint x="275.5" y="455.5"/>
+        <di:waypoint x="276" y="135"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>
